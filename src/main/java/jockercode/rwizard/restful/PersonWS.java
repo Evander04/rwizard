@@ -4,15 +4,16 @@ import jockercode.rwizard.controller.PersonController;
 import jakarta.servlet.http.HttpServletRequest;
 import jockercode.rwizard.pojo.Person;
 import jockercode.rwizard.utils.Response;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/person")
+@Log
 public class PersonWS {
     @Autowired
     private PersonController controller;
-
     @PostMapping("/save")
     public Response searchAuth(HttpServletRequest request, @RequestBody Person body){
         Response response=new Response();
@@ -31,7 +32,7 @@ public class PersonWS {
     public Response findAll(HttpServletRequest request){
         Response response=new Response();
         try{
-            System.out.println("coming");
+            log.info("REQUESTING");
             response.setBody(controller.findAll());
             response.setCode(200);
         }catch (Exception ex){
