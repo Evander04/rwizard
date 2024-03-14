@@ -14,6 +14,9 @@ import jockercode.rwizard.security.dao.response.JwtAuthenticationResponse;
 import jockercode.rwizard.security.service.AuthenticationService;
 import jockercode.rwizard.security.service.JwtService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -24,9 +27,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private Setup setup;
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
+        List<String[]> list=new ArrayList<String[]>(){{
+
+        }};
         UserObj user= setup.initDB();
         var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+        return JwtAuthenticationResponse.builder().token("Bearer "+jwt).build();
     }
 
     @Override
@@ -36,6 +42,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
         var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+
+        return JwtAuthenticationResponse.builder()
+                .token("Bearer "+jwt)
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .role(user.getRole().getCode())
+                .build();
     }
 }
