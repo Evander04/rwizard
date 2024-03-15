@@ -2,9 +2,7 @@ package jockercode.rwizard.security;
 
 import jockercode.rwizard.pojo.UserObj;
 import jockercode.rwizard.security.dao.request.SigninRequest;
-import jockercode.rwizard.utils.Setup;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -14,23 +12,16 @@ import jockercode.rwizard.security.dao.response.JwtAuthenticationResponse;
 import jockercode.rwizard.security.service.AuthenticationService;
 import jockercode.rwizard.security.service.JwtService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    @Autowired
-    private Setup setup;
+
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
-        List<String[]> list=new ArrayList<String[]>(){{
-
-        }};
-        UserObj user= setup.initDB();
+        UserObj user= new UserObj();
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token("Bearer "+jwt).build();
     }

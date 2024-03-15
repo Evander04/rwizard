@@ -40,7 +40,7 @@ public class PersonController {
                 sort.descending();
             pageable = PageRequest.of(page,rowsPerPage,sort);
         }
-        if (param.isBlank())
+        if (param.isBlank() || param.length()<3)
             return pRepo.findAll(pageable);
         else
             return pRepo.findByName(param,pageable);

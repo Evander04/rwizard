@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String firstName;
     private String middleName;
@@ -19,6 +19,7 @@ public class Person {
     private Date dob;
     private String address;
     private String phone;
+    private boolean status;
 
     @OneToMany
     private Set<UserObj> users;

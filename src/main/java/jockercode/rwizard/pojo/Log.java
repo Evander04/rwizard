@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class Log {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer code;//0: person creation
     private String message;
