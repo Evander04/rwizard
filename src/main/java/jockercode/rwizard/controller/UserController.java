@@ -1,33 +1,24 @@
 package jockercode.rwizard.controller;
 
+import jockercode.rwizard.pojo.UserObj;
+import jockercode.rwizard.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import jockercode.rwizard.pojo.Person;
-import jockercode.rwizard.repository.PersonRepository;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class PersonController {
-    private final PersonRepository pRepo;
+public class UserController {
+    private final UserRepository repo;
 
-    public Person save(Person p){
-        return pRepo.save(p);
+    public UserObj save(UserObj userObj){
+        return repo.save(userObj);
     }
-
-    public List<Person> findAll(){
-        return pRepo.findAll();
-    }
-
-    public Page<Person> searchPerson(int page, int rowsPerPage,int sortOption,boolean sortDirection,String param){
-        Pageable pageable=PageRequest.of(page,rowsPerPage);
+    public Page<UserObj> searchUser(int page, int rowsPerPage, int sortOption, boolean sortDirection, String param){
+        Pageable pageable= PageRequest.of(page,rowsPerPage);
         if(sortOption>0){
             final Sort sort = switch (sortOption) {
                 case 1 -> Sort.by("firstName");
@@ -42,13 +33,6 @@ public class PersonController {
                 sort.descending();
             pageable = PageRequest.of(page,rowsPerPage,sort);
         }
-        if (param.isBlank() || param.length()<3)
-            return pRepo.findAll(pageable);
-        else
-            return pRepo.findByName(param,pageable);
-    }
-
-    public Set<Person> findByName(String name){
-        return name.length()>3?pRepo.findByName(name):new HashSet<>();
+        return repo.findAll(pageable);
     }
 }

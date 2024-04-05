@@ -46,7 +46,7 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(request ->
                         request.requestMatchers("/auth/**","/configuration/ping").permitAll()
-                                .requestMatchers("/person/**").hasAnyAuthority("ROOT")
+                                .requestMatchers("/person/**","/catalog/**","/user/**").hasAnyAuthority("ROOT")
                                 .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

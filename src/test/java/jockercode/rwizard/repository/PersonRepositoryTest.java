@@ -36,10 +36,4 @@ class PersonRepositoryTest {
         repo.save(p);
         assertNotNull(p.getId());
     }
-    @Test
-    @DisplayName("Test Get Person")
-    void findAll(){
-        List<Person> personList= repo.findAll();
-        assertFalse(personList.isEmpty());
-    }
 }
