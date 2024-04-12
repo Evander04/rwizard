@@ -22,7 +22,7 @@ public class UserWS {
     private final UserController controller;
 
     @PostMapping("/save")
-    public Response searchAuth(HttpServletRequest request, @RequestBody UserObj body){
+    public Response save(HttpServletRequest request, @RequestBody UserObj body){
         Response response=new Response();
         try{
             response.setBody(controller.save(body));
