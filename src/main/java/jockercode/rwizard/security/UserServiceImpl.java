@@ -15,20 +15,18 @@ public class UserServiceImpl  implements UserService {
     private final UserRepository userRepository;
     @Override
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) {
-                UserSecurity userSecurity = new UserSecurity();
-                UserObj obj=userRepository.findByEmail(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return username -> {
+            UserSecurity userSecurity = new UserSecurity();
+            UserObj obj=userRepository.findByEmail(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found =>"+username));
 
-                userSecurity.setUsername(obj.getUsername());
-                userSecurity.setPassword(obj.getPassword());
-                userSecurity.setRole(obj.getRole());
-                userSecurity.setEmail(obj.getEmail());
+            userSecurity.setUsername(obj.getUsername());
+            userSecurity.setPassword(obj.getPassword());
+            userSecurity.setRole(obj.getRole());
+            userSecurity.setEmail(obj.getEmail());
+            userSecurity.setStatus(obj.isStatus());
 
-                return userSecurity;
-            }
+            return userSecurity;
         };
     }
 }
