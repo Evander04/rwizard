@@ -5,7 +5,6 @@ import jockercode.rwizard.security.dao.response.JwtAuthenticationResponse;
 import jockercode.rwizard.security.dao.request.SignUpRequest;
 
 public interface AuthenticationService {
-    JwtAuthenticationResponse signup(SignUpRequest request);
 
     JwtAuthenticationResponse signin(SigninRequest request);
 }

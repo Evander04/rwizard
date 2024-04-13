@@ -5,6 +5,7 @@ import jockercode.rwizard.security.dao.request.SigninRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import jockercode.rwizard.repository.UserRepository;
 import jockercode.rwizard.security.dao.request.SignUpRequest;
@@ -20,25 +21,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public JwtAuthenticationResponse signup(SignUpRequest request) {
-        UserObj user= new UserObj();
-        var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token("Bearer "+jwt).build();
-    }
-
-    @Override
     public JwtAuthenticationResponse signin(SigninRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        var user = userRepository.findByEmail(request.getEmail())
+        UserSecurity userSecurity = new UserSecurity();
+        UserObj obj=userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
-        var jwt = jwtService.generateToken(user);
+
+        userSecurity.setUsername(obj.getUsername());
+        userSecurity.setPassword(obj.getPassword());
+        userSecurity.setRole(obj.getRole());
+        userSecurity.setEmail(obj.getEmail());
+
+        var jwt = jwtService.generateToken(userSecurity);
 
         return JwtAuthenticationResponse.builder()
                 .token("Bearer "+jwt)
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .role(user.getRole().getCode())
+                .username(userSecurity.getUsername())
+                .email(userSecurity.getEmail())
+                .role(userSecurity.getRole().getCode())
                 .build();
     }
 }

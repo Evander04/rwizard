@@ -1,5 +1,6 @@
 package jockercode.rwizard.security;
 
+import jockercode.rwizard.pojo.UserObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,8 +18,16 @@ public class UserServiceImpl  implements UserService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) {
-                return userRepository.findByEmail(username)
+                UserSecurity userSecurity = new UserSecurity();
+                UserObj obj=userRepository.findByEmail(username)
                         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+                userSecurity.setUsername(obj.getUsername());
+                userSecurity.setPassword(obj.getPassword());
+                userSecurity.setRole(obj.getRole());
+                userSecurity.setEmail(obj.getEmail());
+
+                return userSecurity;
             }
         };
     }
