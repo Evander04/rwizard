@@ -16,10 +16,6 @@ import jockercode.rwizard.security.service.AuthenticationService;
 @RequiredArgsConstructor
 public class AuthenticationWS {
         private final AuthenticationService aService;
-    @PostMapping("/signup")
-    public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignUpRequest request) {
-        return ResponseEntity.ok(aService.signup(request));
-    }
 
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SigninRequest request) {
