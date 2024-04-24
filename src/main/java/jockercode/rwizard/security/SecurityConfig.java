@@ -46,7 +46,10 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(request ->
                         request.requestMatchers("/auth/**","/configuration/ping").permitAll()
-                                .requestMatchers("/person/**","/catalog/**","/user/**").hasAnyAuthority("ROOT")
+                                .requestMatchers("/person/**").hasAnyAuthority("ROOT")
+                                .requestMatchers("/catalog/**").hasAnyAuthority("ROOT")
+                                .requestMatchers("/user/**").hasAnyAuthority("ROOT")
+                                .requestMatchers("/menu/**").hasAnyAuthority("ROOT")
                                 .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

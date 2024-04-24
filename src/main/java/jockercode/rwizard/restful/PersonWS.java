@@ -80,7 +80,7 @@ public class PersonWS {
         Response response=new Response();
         try{
             String name = body.get("name").toString();
-            log.info("param=> "+name);
+//            log.info("param=> "+name);
             response.setBody(controller.findByName(name.toUpperCase()));
             response.setCode(200);
         }catch (Exception ex){

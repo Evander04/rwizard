@@ -2,7 +2,6 @@ package jockercode.rwizard.pojo;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.ColumnTransformer;
 
 import java.util.Date;
 import java.util.Set;
