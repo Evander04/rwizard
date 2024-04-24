@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import jockercode.rwizard.pojo.Person;
 import jockercode.rwizard.repository.PersonRepository;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,13 +43,14 @@ public class PersonController {
                 sort.descending();
             pageable = PageRequest.of(page,rowsPerPage,sort);
         }
+
         if (param.isBlank() || param.length()<3)
             return pRepo.findAll(pageable);
         else
             return pRepo.findByName(param,pageable);
     }
 
-    public Set<Person> findByName(String name){
-        return name.length()>3?pRepo.findByName(name):new HashSet<>();
+    public List<Person> findByName(String name){
+        return name.length()>3?pRepo.findByName(name):new ArrayList<>();
     }
 }
